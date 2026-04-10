@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content%} 
+
+
+<section class ="py-5">
+  <div class="conatainer">
+    <h2 class="text-center mb-4"><i class="fa-brands fa-microblog text-light"></i> Notice Board</h2>
+    <div class="Board p-3 rounded bg-light">
+      <ul class="list-unstyled">
+      <marquee  direction="up" scrollamount="2" onmouseover ="this.stop()"onmouseout="this.start()">
+      <li class="mb-2">
+        <a href="notice1.html"><i class="fa-solid fa-angle-right text-light"></i>Notice Board</a>
+      </li>
+      <li class="mb-2">
+        <a href="notice1.html"><i class="fa-solid fa-angle-right text-light"></i>Notice Board</a>
+      </li>
+      <li class="mb-2">
+        <a href="notice1.html"><i class="fa-solid fa-angle-right text-light"></i>Notice Board</a>
+      </li>
+      </marquee>
+    </ul></div>
+  </div>
+</section>
+
+
+
+
+{% endblock%}

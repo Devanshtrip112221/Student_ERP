@@ -1,0 +1,46 @@
+{% extends "admin_base.html" %} 
+{% load static %}
+{%block content%}
+   <div class="container">
+    <h2 class="mb-4">
+        <i class="fas fa-chalkboard"></i> Manage Classes
+    </h2>
+    {% if messages %}
+    {% for m in messages %}
+        <div class="alert alert-{{ m.tags }} alert-dismissible fade show">
+            {{ m }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    {% endfor %}
+    {% endif %}
+
+    <table class="table table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>S.no.</th>
+                <th>Class Name</th>
+                <th>Class Numeric</th>
+                <th>Section</th>
+                <th>creation</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for c in classes%}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{c.class_name}}</td>
+                <td>{{c.class_numeric}}</td>
+                <td>{{c.section}}</td>
+                <td>{{c.creation_date}}</td>
+                <td>
+                    <a href="" class="btn btn-info btn-sm"><i class="fa-regular fa-pen-to-square"></i> Edit</a>
+                     <a href="?delete={{c.id}}" class="btn btn-danger btn-sm"><i class="fa-solid fa-delete-left"></i> Delete</a>
+                </td>
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+        
+   </div>
+    {%endblock %}

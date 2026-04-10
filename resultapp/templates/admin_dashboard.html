@@ -1,0 +1,82 @@
+{% extends "admin_base.html" %}
+{% load static %}
+{%block content%}
+<style>
+    video {
+    pointer-events: none;
+}
+</style>
+
+<h2 class="mb-4 text"><i class="fa-solid fa-chalkboard-user"></i>Admin Dashboard</h2>
+<div class="row g-4">
+    <div class="col-md-5 col-lg-3">
+        <a href="" class="text-decoration-none">
+            <div class="card text-white bg-primary" >
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h3>5</h3>
+                            <p class="mb=0">Registered Student</p>
+                        </div>
+                        <i class="fas fa-users fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-5 col-lg-3">
+        <a href="" class="text-decoration-none">
+            <div class="card text-white bg-primary" >
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h3>5</h3>
+                            <p class="mb=0">Subjects Listed</p>
+                        </div>
+                        <i class="fas fa-book fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-5 col-lg-3">
+        <a href="" class="text-decoration-none">
+            <div class="card text-white bg-primary" >
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h3>5</h3>
+                            <p class="mb=0">Classes</p>
+                        </div>
+                        <i class="fas fa-school fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-5 col-lg-3">
+        <a href="" class="text-decoration-none">
+            <div class="card text-white bg-primary" >
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h3>5</h3>
+                            <p class="mb=0">Results Declared</p>
+                        </div>
+                        <i class="fas fa-users fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <video controls width="600" 
+ autoplay loop muted playsinline>
+    <source src="{% static 'videos/schoolvid.mp4' %}" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
+
+</div>
+{%endblock %}
