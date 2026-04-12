@@ -34,7 +34,7 @@
                 <td>{{c.section}}</td>
                 <td>{{c.creation_date}}</td>
                 <td>
-                    <a href="" class="btn btn-info btn-sm"><i class="fa-regular fa-pen-to-square"></i> Edit</a>
+                    <a href="{% url 'edit_class' c.id %}" class="btn btn-info btn-sm"><i class="fa-regular fa-pen-to-square"></i> Edit</a>
                      <a href="?delete={{c.id}}" class="btn btn-danger btn-sm"><i class="fa-solid fa-delete-left"></i> Delete</a>
                 </td>
             </tr>

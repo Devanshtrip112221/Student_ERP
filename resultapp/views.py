@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate , login ,logout
 from django.contrib import messages
 from .models import *
 from django.contrib.auth.decorators import login_required
-
+from django.shortcuts import get_object_or_404
 
 
 def index(request):
@@ -60,7 +60,7 @@ def create_class(request):
 def manage_classes(request):
     classes = Class.objects.all()
 
-    from django.shortcuts import get_object_or_404
+    
 
     if request.GET.get('delete'):
         try:
@@ -73,3 +73,28 @@ def manage_classes(request):
             return redirect('manage_classes')
 
     return render(request,"manage_classes.html",locals()) 
+
+
+
+
+
+@login_required
+
+def edit_class(request,class_id):
+        class_obj = get_object_or_404(Class, id=class_id)
+        if request.method == 'POST':
+            try:
+                class_name = request.POST.get('classname')
+                class_numeric = request.POST.get('classnamenumeric')
+                section = request.POST.get('section')
+                class_obj.class_name = class_name
+                class_obj.class_numeric = class_numeric
+                class_obj.section = section
+                class_obj.save()
+
+                messages.success(request,"Class Updated Successfully")
+                return redirect('manage_classes')
+            except Exception as e:
+                messages.error(request,f"Something went wrong: {str(e)}")
+                return redirect('edit_class')
+        return render(request,"edit_class.html",locals()) 
