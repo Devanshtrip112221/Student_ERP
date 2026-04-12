@@ -98,3 +98,22 @@ def edit_class(request,class_id):
                 messages.error(request,f"Something went wrong: {str(e)}")
                 return redirect('edit_class')
         return render(request,"edit_class.html",locals()) 
+
+
+@login_required
+def create_subject(request):
+    if request.method == 'POST':
+        try:
+            subject_name = request.POST.get('subjectname')
+            subject_code = request.POST.get('subjectcode')
+            
+            Subject.objects.create(
+                subject_name=subject_name,
+                subject_code=subject_code
+            )
+            messages.success(request,"Subject Created Successfully")
+            
+        except Exception as e:
+            messages.error(request,f"Something went wrong: {str(e)}")
+        return redirect('create_subject')
+    return render(request,'create_subject.html')
