@@ -28,6 +28,6 @@ urlpatterns = [
     path("manage_classes/",manage_classes,name="manage_classes"),
     path('edit_class/<int:class_id>/', edit_class, name='edit_class'),
     path("create_subject/",create_subject,name="create_subject"),
-    path('manage_subject/',manage_subject,name="manage_subject")
-    
+    path('manage_subject/',manage_subject,name="manage_subject"),
+    path('edit_subject/<int:subject_id>/', edit_subject, name='edit_subject'),
 ]

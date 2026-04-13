@@ -136,3 +136,24 @@ def manage_subject(request):
             return redirect('manage_subject')
 
     return render(request,"manage_subject.html",locals()) 
+
+@login_required
+
+def edit_subject(request,subject_id ):
+        subject_obj  = get_object_or_404(Subject, id=subject_id )
+        if request.method == 'POST':
+            try:
+                subject_name = request.POST.get('subjectname')
+                subject_code = request.POST.get('subjectcode')
+                
+                subject_obj.subject_name = subject_name
+                subject_obj.subject_code = subject_code
+                
+                subject_obj.save()
+
+                messages.success(request,"subject Updated Successfully")
+                
+            except Exception as e:
+                messages.error(request,f"Something went wrong: {str(e)}")
+                return redirect('manage_subject')
+        return render(request,"edit_subject.html",locals()) 
