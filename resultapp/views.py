@@ -117,3 +117,22 @@ def create_subject(request):
             messages.error(request,f"Something went wrong: {str(e)}")
         return redirect('create_subject')
     return render(request,'create_subject.html')
+
+
+@login_required
+def manage_subject(request):
+    subjects = Subject.objects.all()
+
+    
+
+    if request.GET.get('delete'):
+        try:
+            subject_id = request.GET.get('delete')
+            subject_obj = get_object_or_404(Subject, id=subject_id)
+            subject_obj.delete()
+
+        except Exception as e:
+            messages.error(request, f"Something went wrong: {str(e)}")
+            return redirect('manage_subject')
+
+    return render(request,"manage_subject.html",locals()) 

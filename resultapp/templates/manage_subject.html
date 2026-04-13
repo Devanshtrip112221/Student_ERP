@@ -1,0 +1,62 @@
+{% extends "admin_base.html" %} 
+{% load static %}
+{%block content%}
+<style>
+    body{
+            background-color:  #141B2D;
+            color:white;
+        }
+</style>
+   <div class="container">
+    <h2 class="mb-4">
+        <i class="fas fa-chalkboard"></i> Manage Classes
+    </h2>
+    {% if messages %}
+    {% for m in messages %}
+        <div class="alert alert-{{ m.tags }} alert-dismissible fade show">
+            {{ m }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    {% endfor %}
+    {% endif %}
+   
+    <table class="table table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>S.no.</th>
+                <th>subject_name</th>
+                <th>subject_code</th>
+                <th>creation_date</th>
+                <th>updation_date</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in subjects%}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.subject_name}}</td>
+                <td>{{i.subject_code}}</td>
+                <td>{{i.creation_date}}</td>
+                <td>{{i.updation_date}}</td>
+                <td>
+                    <a href="{% url 'edit_class' i.id %}" class="btn btn-info btn-sm"><i class="fa-regular fa-pen-to-square"></i> Edit</a>
+                     <a href="?delete={{i.id}}" class="btn btn-danger btn-sm"><i class="fa-solid fa-delete-left"></i> Delete</a>
+                </td>
+            </tr>
+            {%empty%}
+            
+            <tr>
+                <td colspan='6' class="text-center">Not Found</td>
+            </tr>
+        </tbody>
+    </table>
+        
+   </div>
+    
+     {%endfor%}
+        </tbody>
+    </table>
+        
+   </div>
+    {%endblock %}
