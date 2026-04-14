@@ -157,3 +157,28 @@ def edit_subject(request,subject_id ):
                 messages.error(request,f"Something went wrong: {str(e)}")
                 return redirect('manage_subject')
         return render(request,"edit_subject.html",locals()) 
+
+
+
+
+@login_required
+def add_subject_combination(request):
+    classes = Class.objects.all()
+    subject = Subject.objects.all()
+
+    if request.method == 'POST':
+        try:
+            class_id = request.POST.get('class')
+            subject_id = request.POST.get('subject')
+            
+            SubjectCombination.objects.create(
+                student_class=class_id,
+                subject=subject_id,
+                status = 1
+            )
+            messages.success(request,"Added Successfully")
+            
+        except Exception as e:
+            messages.error(request,f"Something went wrong: {str(e)}")
+        return redirect('add_subject_combination')
+    return render(request,'add_subject_combination.html', locals())

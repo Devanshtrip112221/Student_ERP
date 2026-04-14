@@ -30,4 +30,5 @@ urlpatterns = [
     path("create_subject/",create_subject,name="create_subject"),
     path('manage_subject/',manage_subject,name="manage_subject"),
     path('edit_subject/<int:subject_id>/', edit_subject, name='edit_subject'),
+    path('add_subject_combination/',add_subject_combination,name='add_subject_combination')
 ]

@@ -1,0 +1,53 @@
+ {% extends "admin_base.html" %} 
+{% load static %}
+   {%block content%}
+   <div class="container">
+    <h2 class="mb-4">
+        <i class="fas fa-plus-circle"></i> Add Subject Accordint to  class
+    </h2>
+    {% if messages %}
+    {% for m in messages %}
+        <div class="alert alert-{{ m.tags }} alert-dismissible fade show">
+            {{ m }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    {% endfor %}
+{% endif %}
+   <form method="post">
+    {% csrf_token %}
+    <style>
+        body{
+            background-color:  #141B2D;
+            color:white;
+        }
+    </style>
+    <div class="mb-3">
+        <label for="class" class="form-label">Select Class</label>
+            <select class="form-select" id="class" name="class" required>
+                <option value="">-- Select Class --</option>
+    
+    {% for i in classes %}
+        <option value="{{ i.id}}">{{i.class_name}}-{{ i.section }}</option>
+    {% endfor %}
+    
+</select>
+        </select>
+        
+    </div>
+     <div class="mb-3">
+    <label for="subject" class="form-label">Select Subject</label>
+    <select type="text" class="form-control" id="subject" name="subject" >
+        <option value="">--Select Class--</option>
+         {% for e in subject %}
+        <option value="{{e.id}}">{{ e.subject_name}}-{{ e.subject_code }}</option>
+    {% endfor %}
+        </select>
+</div>
+
+<button type="submit" class="btn btn-success">
+    <i class="fas fa-check-circle me-1"></i>Submit
+</button>
+
+</form>
+   </div>
+    {%endblock %}
