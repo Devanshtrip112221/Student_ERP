@@ -172,8 +172,8 @@ def add_subject_combination(request):
             subject_id = request.POST.get('subject')
             
             SubjectCombination.objects.create(
-                student_class=class_id,
-                subject=subject_id,
+                student_class_id=class_id,
+                subject_id=subject_id,
                 status = 1
             )
             messages.success(request,"Added Successfully")
@@ -182,3 +182,24 @@ def add_subject_combination(request):
             messages.error(request,f"Something went wrong: {str(e)}")
         return redirect('add_subject_combination')
     return render(request,'add_subject_combination.html', locals())
+
+
+
+
+@login_required
+def manage_subject_combination(request):
+    combinations = SubjectCombination.objects.all()
+
+    
+
+    if request.GET.get('delete'):
+        try:
+            subject_id = request.GET.get('delete')
+            subject_obj = get_object_or_404(Subject, id=subject_id)
+            subject_obj.delete()
+
+        except Exception as e:
+            messages.error(request, f"Something went wrong: {str(e)}")
+            return redirect('manage_subject')
+
+    return render(request,"manage_subject_combination.html",locals())
