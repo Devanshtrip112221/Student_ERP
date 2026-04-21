@@ -192,14 +192,49 @@ def manage_subject_combination(request):
 
     
 
-    if request.GET.get('delete'):
+    if request.GET.get('aid'):
         try:
-            subject_id = request.GET.get('delete')
-            subject_obj = get_object_or_404(Subject, id=subject_id)
-            subject_obj.delete()
-
+            SubjectCombination.objects.filter(id=aid).update(status=1)
+            messages.success(request, "Subject Combination activated successfully")
         except Exception as e:
             messages.error(request, f"Something went wrong: {str(e)}")
-            return redirect('manage_subject')
+        return redirect('manage_subject_combination')
 
-    return render(request,"manage_subject_combination.html",locals())
+    did = request.GET.get('did')
+    if request.GET.get('did'):
+
+        try:
+            SubjectCombination.objects.filter(id=did).update(status=0)
+            messages.success(request, "Subject Combination deactivated successfully")
+        except Exception as e:
+            messages.error(request, f"Something went wrong: {str(e)}")
+        return redirect('manage_subject_combination')  
+    return render(request, 'manage_subject_combination.html')
+
+
+
+
+@login_required
+def add_student(request):
+    combinations = SubjectCombination.objects.all()
+
+    
+
+    if request.GET.get('aid'):
+        try:
+            SubjectCombination.objects.filter(id=aid).update(status=1)
+            messages.success(request, "Subject Combination activated successfully")
+        except Exception as e:
+            messages.error(request, f"Something went wrong: {str(e)}")
+        return redirect('manage_subject_combination')
+
+    did = request.GET.get('did')
+    if request.GET.get('did'):
+
+        try:
+            SubjectCombination.objects.filter(id=did).update(status=0)
+            messages.success(request, "Subject Combination deactivated successfully")
+        except Exception as e:
+            messages.error(request, f"Something went wrong: {str(e)}")
+        return redirect('manage_subject_combination')  
+    return render(request, 'manage_subject_combination.html')
