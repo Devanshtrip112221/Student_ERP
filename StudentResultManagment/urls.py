@@ -35,6 +35,7 @@ urlpatterns = [
     path('create_student/', create_student, name='create_student'),
     path('manage_student/', manage_student, name='manage_student'),
     path('add_notice/', add_notice, name='add_notice'),
-    path('manage_notice/', manage_notice, name='manage_notice')
-    path("add_result/", add_result, name="add_result")
+    path('manage_notice/', manage_notice, name='manage_notice'),
+    path("add_result/", add_result, name="add_result"),
+    path("get_student_subjects/",get_student_subjects,name='get_student_subjects'),
 ]

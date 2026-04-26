@@ -1,9 +1,11 @@
 from django.shortcuts import render,redirect,get_list_or_404
+from django.http import JsonResponse
 from django.contrib.auth import authenticate , login ,logout
 from django.contrib import messages
 from .models import *
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
+import json
 
 
 def index(request):
@@ -383,3 +385,35 @@ def add_result(request):
 
     classes = Class.objects.all()
     return render(request, 'add_result.html', locals())
+
+def get_student_subjects(request):
+    class_id = request.GET.get("class_id")
+    
+    if class_id:
+        students = list(
+            Student.objects.filter(student_class_id=class_id)
+            .values('id', 'name', 'roll_id')
+        )
+
+        subject_combinations = SubjectCombination.objects.filter(
+            student_class_id=class_id,
+            status=1
+        ).select_related('subject')
+
+        subjects = [
+            {
+                'id': sc.subject.id,
+                'name': sc.subject.subject_name
+            }
+            for sc in subject_combinations
+        ]
+
+        return JsonResponse({
+            'students': students,
+            'subjects': subjects
+        })
+
+    return JsonResponse({
+        'students': [],
+        'subjects': []
+    })

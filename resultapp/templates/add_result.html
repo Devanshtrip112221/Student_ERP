@@ -3,7 +3,7 @@
    {%block content%}
    <div class="container">
     <h2 class="mb-4">
-        <i class="fas fa-plus-circle"></i> Add Subject Accordint to  class
+        <i class="fas fa-plus-circle"></i> Add Result
     </h2>
     {% if messages %}
     {% for m in messages %}
@@ -15,40 +15,69 @@
 {% endif %}
    <form method="post">
     {% csrf_token %}
-    <style>
-        body{
-            background-color:  #141B2D;
-            color:white;
-        }
     </style>
-    <div class="mb-3">
-        <label for="class" class="form-label">Select Class</label>
-            <select class="form-select" id="class" name="class" required>
-                <option value="">-- Select Class --</option>
-    
-    {% for i in classes %}
-        <option value="{{ i.id}}">{{i.class_name}}-{{ i.section }}</option>
-    {% endfor %}
-    
-</select>
         </select>
         
-    </div>
-     <div class="mb-3">
-    <label for="subject" class="form-label">Select Subject</label>
-    <select type="text" class="form-control" id="subject" name="subject" >
-        <option value="">--Select Class--</option>
-         {% for e in subject %}
-        <option value="{{e.id}}">{{ e.subject_name}}-{{ e.subject_code }}</option>
-    {% endfor %}
-        </select>
+<div >      
+<div class="mb-3">
+    <label class="form-label">Select Class</label>
+    <select class="form-select" id="class_id" name="classid" required>
+        <option value="">----Select Class----</option>
+        {% for i in classes %}
+            <option value="{{ i.id }}">{{ i.class_name }}-{{ i.section }}</option>
+        {% endfor %}
+    </select>
 </div>
+<div class="mb-3">
+    <label class="form-label">Select Student</label>
+    <select class="form-control" id="student_id" name="studentid">
+        <option value="">----Select Student---</option>
+    </select>
+</div>
+<div id="subject_fields">
 
+</div>
 <button type="submit" class="btn btn-success">
     <i class="fas fa-check-circle me-1"></i>Submit
 </button>
+</div>
 
-</form>
-   </div>
+   <script>
+document.getElementById('class_id').addEventListener('change', function () {
+    const classId = this.value;
+
+    if (!classId) return;
+
+    fetch(`/get_student_subjects/?class_id=${classId}`)
+        .then(res => res.json())
+        .then(data => {
+            // Student Dropdown
+            const studentSelect = document.getElementById('student_id');
+            studentSelect.innerHTML = '<option value="">----Select Student---</option>';
+
+            data.students.forEach(stu => {
+                const opt = document.createElement('option');
+                opt.value = stu.id;
+                opt.text = `${stu.name} (Roll ID : ${stu.roll_id})`;
+                studentSelect.appendChild(opt);
+            });
+
+            // Subject Fields
+            const subjectFields = document.getElementById('subject_fields');
+            subjectFields.innerHTML = '<h5 class="mt-5">Subjects and Marks</h5>';
+
+            data.subjects.forEach(sub => {
+                const div = document.createElement('div');
+                div.className = "mb-3";
+
+                div.innerHTML = `
+                    <label>${sub.name}</label>
+                    <input type="number" name="marks_${sub.id}" class="form-control" placeholder="Enter marks">
+                `;
+
+                subjectFields.appendChild(div);
+            });
+        });
+});
+</script>
     {%endblock %}
-    

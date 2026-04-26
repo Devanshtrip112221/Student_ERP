@@ -16,10 +16,10 @@
    <form method="post">
     {% csrf_token %}
     <style>
-        body{
+        {% comment %} body{
             background-color:  #141B2D;
             color:white;
-        }
+        } {% endcomment %}
     </style>
     <div class="mb-3">
         <label for="subjectname" class="form-label">Subject Name</label>
