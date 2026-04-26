@@ -27,10 +27,16 @@
         <thead class="table-dark">
             <tr>
                 <th>S.no.</th>
-                <th>Class and Section</th>
-                <th>Subject</th>
-                <th>Status</th>
-                <th>Creation Date</th>
+                <th>Name</th>
+                <th>Class</th>
+                 <th>Roll no.</th>
+                 <th>Status</th>
+                  <th>Email</th>
+                  <th>DOB</th>
+                  
+                  <th>Addmission Date</th>
+             
+               
                 <th>Action</th>
             </tr>
         </thead>
@@ -39,21 +45,25 @@
             {% for i in combinations %}
             <tr>
                 <td>{{ forloop.counter }}</td>
-                <td>{{ i.student_class }}</td>
-                <td>{{ i.subject }}</td>
-
-                <td>
+                <td>{{ i.name }}</td>
+                <td>{{i.student_class }}</td>
+                <td>{{i.roll_id}}</td>
+                 <td>
                     {% if i.status == 1 %}
                         <span class="badge bg-success">Active</span>
                     {% else %}
                         <span class="badge bg-danger">Inactive</span>
                     {% endif %}
                 </td>
+                <td>{{i.email }}</td>
+                <td>{{i.dob }}</td>
+                
+                <td>{{i.reg_date}}</td>
+                
 
-                <td>{{ i.creation_date }}</td>
-
+               
                 <td>
-                    {% if i.status == 1 %}
+                {% if i.status == 1 %}
     
     <a href="?did={{ i.id }}" class="btn btn-danger btn-sm">
         <i class="fas fa-times"></i>

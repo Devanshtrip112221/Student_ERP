@@ -123,21 +123,23 @@ def create_subject(request):
 def manage_subject(request):
     subjects = Subject.objects.all()
 
-    
-
     if request.GET.get('delete'):
         try:
             subject_id = request.GET.get('delete')
             subject_obj = get_object_or_404(Subject, id=subject_id)
             subject_obj.delete()
+            messages.success(request, "Deleted successfully")
+            return redirect('manage_subject')   
 
         except Exception as e:
             messages.error(request, f"Something went wrong: {str(e)}")
-            return redirect('manage_subject')
+            return redirect('manage_subject') 
 
     return render(request,"manage_subject.html",locals()) 
 
 @login_required
+
+
 
 def edit_subject(request,subject_id ):
         subject_obj  = get_object_or_404(Subject, id=subject_id )
@@ -185,56 +187,199 @@ def add_subject_combination(request):
 
 
 
-
 @login_required
 def manage_subject_combination(request):
     combinations = SubjectCombination.objects.all()
 
-    
-
-    if request.GET.get('aid'):
+    aid = request.GET.get('aid')
+    did = request.GET.get('did')
+   
+    if aid:
         try:
             SubjectCombination.objects.filter(id=aid).update(status=1)
-            messages.success(request, "Subject Combination activated successfully")
+            messages.success(request, "Activated successfully")
         except Exception as e:
-            messages.error(request, f"Something went wrong: {str(e)}")
+            messages.error(request, f"Error: {str(e)}")
         return redirect('manage_subject_combination')
-
-    did = request.GET.get('did')
-    if request.GET.get('did'):
-
+    
+    if did:
         try:
             SubjectCombination.objects.filter(id=did).update(status=0)
-            messages.success(request, "Subject Combination deactivated successfully")
+            messages.success(request, "Deactivated successfully")
+        except Exception as e:
+            messages.error(request, f"Error: {str(e)}")
+        return redirect('manage_subject_combination')
+
+    return render(request, 'manage_subject_combination.html', {'combinations': combinations})
+
+
+
+
+
+
+# @login_required
+# def create_student(request):
+#     if request.method == 'POST':
+#         try:
+#             studentname = request.POST.get('studentname')
+#             roll_no = request.POST.get('roll_no')
+#             Studentemail = request.POST.get('Studentemail')
+#             studentgender = request.POST.get('studentgender')
+#             Studentdob = request.POST.get('Studentdob')
+#             studentclass = request.POST.get('studentclass')
+#             regdate = request.POST.get('regdate')
+            
+            
+#             Subject.objects.create(
+#                 name=studentname,
+#                 reg_date=regdate,
+#                 student_class=studentclass,
+#                 dob =Studentdob,
+#                 gender=studentgender,
+#                 email=Studentemail,
+#                 roll_id = roll_no
+                
+#             )
+#             messages.success(request,"Student Created Successfully")
+            
+#         except Exception as e:
+#             messages.error(request,f"Something went wrong: {str(e)}")
+#         return redirect('create_student')
+#     return render(request,'create_student.html')
+
+
+
+@login_required
+def create_student(request):
+    if request.method == 'POST':
+        try:
+            student_name = request.POST.get('student_name')
+            roll_no = request.POST.get('roll_no')
+            student_email = request.POST.get('student_email')
+            student_gender = request.POST.get('student_gender')
+            student_dob = request.POST.get('student_dob')
+            student_class_id = request.POST.get('student_class')
+
+            student_class = Class.objects.filter(id=student_class_id).first()
+
+            if not student_class:
+                messages.error(request, "Invalid Class Selected")
+                return redirect('create_student')
+
+            Student.objects.create(
+                name=student_name,
+                roll_id=roll_no,
+                email=student_email,
+                gender=student_gender,
+                dob=student_dob,
+                student_class=student_class
+            )
+
+            messages.success(request, "Student Created Successfully")
+
+        except Exception as e:
+            messages.error(request, f"Error: {str(e)}")
+
+        return redirect('create_student')
+
+    classes = Class.objects.all()
+    return render(request, 'create_student.html', {'classes': classes})
+
+
+@login_required
+def manage_student(request):
+    combinations = Student.objects.all()
+
+    aid = request.GET.get('aid')
+    did = request.GET.get('did')
+   
+    if aid:
+        try:
+            Student.objects.filter(id=aid).update(status=1)  
+            messages.success(request, "Activated successfully")
+        except Exception as e:
+            messages.error(request, f"Error: {str(e)}")
+        return redirect('manage_student')
+    
+    if did:
+        try:
+            Student.objects.filter(id=did).update(status=0)  
+            messages.success(request, "Deactivated successfully")
+        except Exception as e:
+            messages.error(request, f"Error: {str(e)}")
+        return redirect('manage_student')
+
+    return render(request, 'manage_student.html', {'combinations': combinations})
+
+@login_required
+def add_notice(request):
+    if request.method == 'POST':
+        try:
+            title = request.POST.get('title')
+            details = request.POST.get('details')
+            
+            Notice.objects.create(title=title,detail=details)
+            messages.success(request,"Class Created Successfully")
+            return redirect('add_notice')
+        except Exception as e:
+            messages.error(request,f"Something went wrong: {str(e)}")
+            return redirect('add_notice')
+    return render(request,'add_notice.html')
+
+@login_required
+def manage_notice(request):
+    notice = Notice.objects.all()
+
+    if request.GET.get('delete'):
+        try:
+            notice_id = request.GET.get('delete')
+            notice_obj = get_object_or_404(notice, id=notice_id)
+            notice_obj.delete()
+            messages.success(request, "Deleted successfully")
+            return redirect('manage_notice')   
+
         except Exception as e:
             messages.error(request, f"Something went wrong: {str(e)}")
-        return redirect('manage_subject_combination')  
-    return render(request, 'manage_subject_combination.html')
+            return redirect('manage_notice') 
+
+    return render(request,"manage_notice.html",locals()) 
+
 
 
 
 
 @login_required
-def add_student(request):
-    combinations = SubjectCombination.objects.all()
-
-    
-
-    if request.GET.get('aid'):
+def add_result(request):
+    if request.method == 'POST':
         try:
-            SubjectCombination.objects.filter(id=aid).update(status=1)
-            messages.success(request, "Subject Combination activated successfully")
-        except Exception as e:
-            messages.error(request, f"Something went wrong: {str(e)}")
-        return redirect('manage_subject_combination')
+            student_name = request.POST.get('student_name')
+            roll_no = request.POST.get('roll_no')
+            student_email = request.POST.get('student_email')
+            student_gender = request.POST.get('student_gender')
+            student_dob = request.POST.get('student_dob')
+            student_class_id = request.POST.get('student_class')
 
-    did = request.GET.get('did')
-    if request.GET.get('did'):
+            student_class = Result.objects.filter(id=student_class_id).first()
 
-        try:
-            SubjectCombination.objects.filter(id=did).update(status=0)
-            messages.success(request, "Subject Combination deactivated successfully")
+            if not student_class:
+                messages.error(request, "Invalid Class Selected")
+                return redirect('create_student')
+
+            Student.objects.create(
+                name=student_name,
+                roll_id=roll_no,
+                email=student_email,
+                gender=student_gender,
+                dob=student_dob,
+                student_class=student_class
+            )
+
+            messages.success(request, "Student Created Successfully")
+
         except Exception as e:
-            messages.error(request, f"Something went wrong: {str(e)}")
-        return redirect('manage_subject_combination')  
-    return render(request, 'manage_subject_combination.html')
+            messages.error(request, f"Error: {str(e)}")
+
+        return redirect('add_result')
+
+    classes = Class.objects.all()
+    return render(request, 'add_result.html', locals())

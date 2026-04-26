@@ -1,6 +1,7 @@
 {% extends "admin_base.html" %} 
 {% load static %}
 {%block content%}
+
 <style>
     body{
             background-color:  #141B2D;
@@ -9,7 +10,7 @@
 </style>
    <div class="container">
     <h2 class="mb-4">
-        <i class="fas fa-chalkboard"></i> Manage Subject
+        <i class="fas fa-chalkboard"></i> Manage Classes
     </h2>
     {% if messages %}
     {% for m in messages %}
@@ -24,35 +25,27 @@
         <thead class="table-dark">
             <tr>
                 <th>S.no.</th>
-                <th>subject_name</th>
-                <th>subject_code</th>
-                <th>creation_date</th>
-                <th>updation_date</th>
+                <th>Title</th>
+                <th>About</th>
                 <th>Action</th>
+            
             </tr>
         </thead>
-       <tbody>
-    {% for i in subjects %}
-    <tr>
-        <td>{{ forloop.counter }}</td>
-        <td>{{ i.subject_name }}</td>
-        <td>{{ i.subject_code }}</td>
-        <td>{{ i.creation_date }}</td>
-        <td>{{ i.updation_date }}</td>
-        <td>
-            <a href="{% url 'edit_subject' i.id %}" class="btn btn-info btn-sm">Edit</a>
-            <a href="?delete={{ i.id }}" class="btn btn-danger btn-sm">Delete</a>
-        </td>
-    </tr>
-    {% endfor %}
-</tbody>
-    </table>
-        
-   </div>
-    
-  
+        <tbody>
+            {% for c in notice%}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{c.notice}}</td>
+                <td>{{c.detail}}</td>
+                <td>
+                    <a href="{% url 'edit_class' c.id %}" class="btn btn-info btn-sm"><i class="fa-regular fa-pen-to-square"></i> Edit</a>
+                     <a href="?delete={{c.id}}" class="btn btn-danger btn-sm"><i class="fa-solid fa-delete-left"></i> Delete</a>
+                </td>
+            </tr>
+            {%endfor%}
         </tbody>
     </table>
         
    </div>
-    {%endblock %}
+   {% endblock %}
+    

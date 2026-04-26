@@ -1,0 +1,92 @@
+{% extends "admin_base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+    
+    <div class="card shadow-lg p-4" style="background-color:#1E293B; color:white; border-radius:12px;">
+        
+        <h3 class="mb-4 text-center">
+            <i class="fas fa-user-plus"></i> Add Student
+        </h3>
+
+        {% if messages %}
+            {% for m in messages %}
+                <div class="alert alert-{{ m.tags }} alert-dismissible fade show">
+                    {{ m }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="row">
+
+             
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Student Name</label>
+                    <input type="text" class="form-control" name="student_name" placeholder="Enter full name" required>
+                </div>
+
+            
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Roll Number</label>
+                    <input type="text" class="form-control" name="roll_no" placeholder="Enter roll number" required>
+                </div>
+
+               
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-control" name="student_email" placeholder="Enter email">
+                </div>
+
+               
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Gender</label>
+                    <select class="form-control" name="student_gender">
+                        <option value="">Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+          
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Date of Birth</label>
+                    <input type="date" class="form-control" name="student_dob">
+                </div>
+
+               
+               <div class="mb-3">
+    <label for="class" class="form-label">Select Class</label>
+    <select class="form-select" id="class" name="student_class" required>
+        <option value="">-- Select Class --</option>
+        {% for i in classes %}
+            <option value="{{ i.id }}">{{ i.class_name }} - {{ i.section }}</option>
+        {% endfor %}
+    </select>
+</div>
+
+                
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Registration Date</label>
+                    <input type="date" class="form-control" name="registration_date">
+                </div>
+
+            </div>
+
+            <!-- Submit -->
+            <div class="text-center mt-3">
+                <button type="submit" class="btn btn-success px-4">
+                    <i class="fas fa-check-circle me-1"></i> Submit
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+{% endblock %}
