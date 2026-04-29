@@ -6,7 +6,7 @@ from .models import *
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 import json
-
+from django.contrib.auth.hashers import check_password
 
 def index(request):
     return render(request,'index.html')
@@ -34,8 +34,11 @@ def admin_login(request):
 def admin_dashboard(request):
     if not request.user.is_authenticated:
         return redirect('admin_dashboard')
-    
-    return render(request,'admin_dashboard.html')
+    total_student = Student.objects.count()
+    total_subject = Subject.objects.count()
+    total_classes = Class.objects.count()
+    total_result = Result.objects.values('student').distinct().count()
+    return render(request, 'admin_dashboard.html', locals())
 
 
 def admin_logout(request):
@@ -417,3 +420,90 @@ def get_student_subjects(request):
         'students': [],
         'subjects': []
     })
+
+
+
+@login_required
+def add_result(request):
+    classes = Class.objects.all()
+    if request.method == 'POST':
+        try:
+            class_id = request.POST.get('class')
+            student_id = request.POST.get('studentid')
+            marks_data = {key.split('_')[1]:value for key, value in request.POST.items() if '_' in key}
+            
+            for subject_id, marks in marks_data.items():
+                Result.objects.create(
+                    student_id=student_id, 
+                    student_class_id=class_id,
+                    subject_id=subject_id, 
+                    marks=marks
+                )
+            
+            messages.success(request, "Result info added Successfully")
+            return redirect('add_result')
+            
+        except Exception as e:
+            messages.error(request, f"Something went wrong: {str(e)}")
+            return redirect('add_result')
+            
+    return render(request, 'add_result.html', locals())
+
+
+
+def get_students_subjects(request):
+    class_id = request.GET.get('class_id')
+
+
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from .models import Result
+
+@login_required
+def manage_result(request):
+
+
+    did = request.GET.get('did')
+    aid = request.GET.get('aid')
+
+    if did:
+        Result.objects.filter(id=did).update(status=0)
+        return redirect('manage_result')
+
+    if aid:
+        Result.objects.filter(id=aid).update(status=1)
+        return redirect('manage_result')
+
+
+    result = Result.objects.select_related('student', 'student_class').all()
+
+    return render(request, "manage_result.html", {'result': result})
+
+
+
+@login_required
+def chage_password(request):
+    if request.method == 'POST':
+        current_password = request.POST.get('current_password')
+        new_password = request.POST.get('new_password')
+        confirm_password = request.POST.get('confirm_password')
+
+        user = request.user
+
+     
+        if not user.check_password(current_password):
+            messages.error(request, "Current password is incorrect")
+            return redirect('change_password')
+
+ 
+        if new_password != confirm_password:
+            messages.error(request, "New passwords do not match")
+            return redirect('change_password')
+
+        user.set_password(new_password)
+        user.save()
+
+        messages.success(request, "Password changed successfully. Please login again.")
+        return redirect('admin-login')
+
+    return render(request, 'chage_password.html')

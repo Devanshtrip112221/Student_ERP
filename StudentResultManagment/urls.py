@@ -38,4 +38,6 @@ urlpatterns = [
     path('manage_notice/', manage_notice, name='manage_notice'),
     path("add_result/", add_result, name="add_result"),
     path("get_student_subjects/",get_student_subjects,name='get_student_subjects'),
+    path("manage_result/",manage_result,name="manage_result"),
+    path("chage_password/",chage_password,name="chage_password"),
 ]

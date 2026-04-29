@@ -71,8 +71,8 @@ document.getElementById('class_id').addEventListener('change', function () {
                 div.className = "mb-3";
 
                 div.innerHTML = `
-                    <label>${sub.name}</label>
-                    <input type="number" name="marks_${sub.id}" class="form-control" placeholder="Enter marks">
+                    <label class="form-label">${sub.name}</label>
+                    <input type="number" name="marks_${sub.id}" class="form-control" placeholder="Enter marks" required>
                 `;
 
                 subjectFields.appendChild(div);
