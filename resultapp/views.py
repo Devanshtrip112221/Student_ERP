@@ -507,3 +507,34 @@ def chage_password(request):
         return redirect('admin-login')
 
     return render(request, 'chage_password.html')
+
+
+
+
+@login_required
+def search_result(request):
+    classes = Class.object.all()
+    return render(request, 'chage_password.html')
+
+# @login_required
+
+def student_dashboard(request):
+    return render(request, "student_dashboard.html")
+
+
+def student_login(request):
+    if request.user.is_authenticated:
+        return redirect('student_dashboard')
+    error = None
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request,username=username,password=password)
+
+        if user is not None and user.is_superuser:
+            login(request, user)
+            return redirect('admin_dashboard')
+        else:
+            error = "Invalid credentials or not authorized."
+
+    return render(request,'student_login.html',locals())

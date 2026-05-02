@@ -40,4 +40,7 @@ urlpatterns = [
     path("get_student_subjects/",get_student_subjects,name='get_student_subjects'),
     path("manage_result/",manage_result,name="manage_result"),
     path("chage_password/",chage_password,name="chage_password"),
+    path("search_result/",search_result,name="search_result"),
+    path('student_dashboard/', student_dashboard, name='student_dashboard'),
+    path("student_login/",student_login,name="student_login")
 ]
