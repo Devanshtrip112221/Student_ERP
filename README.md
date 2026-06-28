@@ -2,7 +2,7 @@
 
 ##  Overview
 
-The **Student ERP System** is a web-based application designed to manage student-related data efficiently. It helps in handling records like student details, attendance, marks, and fees in one centralized system.
+The **Student ERP System** is a web-based application designed to manage student-related data efficiently. It helps in handling records like student details, attendance, marks, and fees in one centralized system
 
 ---
 
