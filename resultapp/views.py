@@ -516,25 +516,31 @@ def search_result(request):
     classes = Class.object.all()
     return render(request, 'chage_password.html')
 
-# @login_required
+
+
+# def student_login(request):
+#     if request.user.is_authenticated:
+#         return redirect('student_dashboard')
+#     error = None
+#     if request.method == 'POST':
+#         username = request.POST['username']
+#         password = request.POST['password']
+#         user = authenticate(request,username=username,password=password)
+
+#         if user is not None and user.is_superuser:
+#             login(request, user)
+#             return redirect('admin_dashboard')
+#         else:
+#             error = "Invalid credentials or not authorized."
+
+#     return render(request,'student_login.html',locals())
+
 
 def student_dashboard(request):
-    return render(request, "student_dashboard.html")
-
-
-def student_login(request):
-    if request.user.is_authenticated:
-        return redirect('student_dashboard')
-    error = None
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request,username=username,password=password)
-
-        if user is not None and user.is_superuser:
-            login(request, user)
-            return redirect('admin_dashboard')
-        else:
-            error = "Invalid credentials or not authorized."
-
-    return render(request,'student_login.html',locals())
+    # if not request.user.is_authenticated:
+    #     return redirect('admin_dashboard')
+    # total_student = Student.objects.count()
+    # total_subject = Subject.objects.count()
+    # total_classes = Class.objects.count()
+    # total_result = Result.objects.values('student').distinct().count()
+    return render(request, 'student_dashboard.html', locals())

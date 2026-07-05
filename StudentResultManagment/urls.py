@@ -42,5 +42,5 @@ urlpatterns = [
     path("chage_password/",chage_password,name="chage_password"),
     path("search_result/",search_result,name="search_result"),
     path('student_dashboard/', student_dashboard, name='student_dashboard'),
-    path("student_login/",student_login,name="student_login")
+    # path("student_login/",student_login,name="student_login")
 ]
